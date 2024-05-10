@@ -19,7 +19,7 @@ class ProductFactory extends Factory
         return [
             'name' => $this->faker->unique()->randomElement(["Laravel Cap", "T-shirt", "Blanket", "Sweater"]),
             'description' => $this->faker->paragraph(2),
-            'price' => $this->faker->numberBetween(5, 45),
+            'price' => $this->faker->numberBetween(500, 4500),
         ];
     }
 }
