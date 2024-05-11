@@ -9,20 +9,11 @@ class AddProductVariantToCart
 
     public function add($variantId)
     {
+        $cart = match (auth()->guest()) {
+            true => Cart::firstOrCreate(['session_id' => session()->getId()]),
+            false => auth()->user()->cart ?: auth()->user()->cart()->create(),
+        };
 
-
-
-        if (auth()->guest()) {
-            $cart = Cart::firstOrCreate([
-                'session_id' => session()->getId(),
-            ]);
-        }
-
-        if (auth()->user()) {
-            $cart = auth()->user()->cart ?: auth()->user()->cart()->create();
-        }
-
-        dd($cart);
         return $cart;
     }
 }
