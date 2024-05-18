@@ -2,6 +2,7 @@
 
 namespace App\Actions\Webshop;
 
+use App\Models\Cart;
 use App\Models\OrderItem;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -16,6 +17,7 @@ class HandleCheckoutSessionCompleted
 
             $session = Cashier::stripe()->checkout->sessions->retrieve($sessionId);
             $user = User::find($session->metadata->user_id);
+            $cart = Cart::find($session->metadata->cart_id);
 
             $order = $user->orders()->create([
                 'stripe_checkout_session_id' => $session->id,
@@ -43,11 +45,9 @@ class HandleCheckoutSessionCompleted
                     'state' => $session->shipping_details->address->state,
                 ]
             ]);
-
             $lineItems = Cashier::stripe()->checkout->sessions->allLineItems($session->id);
-
             $orderItems = collect($lineItems->all())->map(function (LineItem $line) {
-                $product = Cashier::stripe()->products->retrieve($line->price->product_id);
+                $product = Cashier::stripe()->products->retrieve($line->price->product);
 
                 return new OrderItem([
                     'product_variant_id' => $product->metadata->product_variant_id,
@@ -61,8 +61,10 @@ class HandleCheckoutSessionCompleted
                     'amount_tax' => $line->amount_tax,
                 ]);
             });
-
             $order->items()->saveMany($orderItems);
+
+            $cart->items()->delete();
+            $cart->delete();
         });
     }
 }
