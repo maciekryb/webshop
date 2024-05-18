@@ -23,5 +23,8 @@ Thank you for your order. You can find all the details below.
     |||| **Total** | {{ $order->amount_total }} |
 @endcomponent
 
+@component('mail::button', ['url'=>route('view-order', $order->id ), 'color'=>'success'])
+View order
+@endcomponent
 
 @endcomponent
