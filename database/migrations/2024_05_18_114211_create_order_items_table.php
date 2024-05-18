@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedInteger('order_id');
             $table->unsignedInteger('product_variant_id');
             $table->string('name');
-            $table->integer('description');
+            $table->string('description');
             $table->unsignedInteger('price');
             $table->unsignedInteger('quantity');
             $table->unsignedInteger('amount_discount');
