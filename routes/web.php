@@ -2,6 +2,7 @@
 
 use App\Livewire\Cart;
 use App\Livewire\CheckoutStatus;
+use App\Livewire\MyOrders;
 use App\Livewire\Product;
 use App\Livewire\StoreFront;
 use App\Livewire\ViewOrder;
@@ -35,4 +36,5 @@ Route::middleware([
 ])->group(function () {
     Route::get('/checkout-status', CheckoutStatus::class)->name('checkout-status');
     Route::get('/order/{orderId}', ViewOrder::class)->name('view-order');
+    Route::get('/my-orders', MyOrders::class)->name('my-orders');
 });
