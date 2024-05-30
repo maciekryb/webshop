@@ -5,12 +5,14 @@ namespace App\Livewire;
 use App\Models\Product;
 use Livewire\Component;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\Url;
 use Livewire\WithPagination;
 
 class StoreFront extends Component
 {
     use WithPagination;
 
+    #[Url]
     public $keywords;
 
     #[Computed]
